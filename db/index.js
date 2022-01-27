@@ -11,7 +11,15 @@ function createSetString(queryObject) {
   return setString;
 }
 
+function createValueString(queryObject) {
+  const valueString = Object.keys(queryObject)
+    .map((key, index) => `$${index + 1}`)
+    .join(", ");
+  return valueString;
+}
+
 module.exports = {
   createSetString,
+  createValueString,
   pool,
 };

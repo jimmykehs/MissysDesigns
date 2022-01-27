@@ -65,10 +65,9 @@ async function buildTables(client) {
   }
 }
 
-async function seedData(client) {
+async function seedData() {
   try {
-    const user = await createUser(seedUsers[0]);
-    console.log(user);
+    await Promise.all(seedUsers.map(createUser))
   } catch (err) {
     console.log(err);
   }

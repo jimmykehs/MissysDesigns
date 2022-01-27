@@ -1,20 +1,20 @@
-const { createSetString, pool } = require("./index");
+const { createValueString, pool } = require("./index");
 
 async function createUser(user) {
   const client = await pool.connect();
   const userKeys = Object.keys(user).join(",");
   console.log(userKeys);
   const userValues = Object.values(user);
-  console.log(userValues);
   try {
     const { rows } = await client.query(
       `
         INSERT INTO users(${userKeys})
-        VALUES (${createSetString(user)})
+        VALUES (${createValueString(user)})
         RETURNING *;
     `,
       userValues
     );
+    console.log(rows)
     return rows;
   } catch (error) {
     throw error;
