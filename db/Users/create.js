@@ -1,5 +1,4 @@
-const { createValueString, pool } = require("./index");
-
+const { createValueString, pool } = require("../index");
 async function createUser(user) {
   const client = await pool.connect();
   const userKeys = Object.keys(user).join(",");
@@ -14,7 +13,7 @@ async function createUser(user) {
     `,
       userValues
     );
-    console.log(rows)
+    console.log(`USER CREATED`, rows);
     return rows;
   } catch (error) {
     throw error;

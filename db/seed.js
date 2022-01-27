@@ -1,4 +1,4 @@
-const { createUser } = require("./create.js");
+const { createUser } = require("./Users/create.js");
 const { pool } = require("./index.js");
 const { seedUsers, seedProducts } = require("./seedData");
 
@@ -67,7 +67,7 @@ async function buildTables(client) {
 
 async function seedData() {
   try {
-    await Promise.all(seedUsers.map(createUser))
+    await Promise.all(seedUsers.map(createUser));
   } catch (err) {
     console.log(err);
   }
