@@ -1,4 +1,9 @@
-const { deleteUser, updateUser } = require("./Users");
+const { getUserCart } = require("./Cart/cartDBFunctions");
+const {
+  deleteUser,
+  updateUser,
+  getUserById,
+} = require("./Users/userDBFunctions");
 
 const update = async () => {
   await updateUser(
@@ -11,7 +16,7 @@ const update = async () => {
     2
   );
 
-  await deleteUser(1);
+  await getUserById(1);
 };
 
 update();

@@ -2,17 +2,16 @@ const { pool } = require("../index.js");
 const format = require("pg-format");
 const { createSetString } = require("../index.js");
 
-async function updateUser(updateData, userId) {
+async function updateProduct(updateData, productId) {
   const client = await pool.connect();
   const sql = format(
     `UPDATE users SET %s WHERE user_id = %s RETURNING *;`,
     createSetString(updateData),
-    userId
+    productId
   );
   try {
     const { rows } = await client.query(sql, Object.values(updateData));
-    delete rows[0].password;
-    console.log("USER UPDATED", rows);
+    console.log("PRODUCT UPDATED", rows);
     return rows;
   } catch (error) {
   } finally {
@@ -20,21 +19,22 @@ async function updateUser(updateData, userId) {
   }
 }
 
-async function deleteUser(userId) {
+async function deleteProduct(productId) {
   const client = await pool.connect();
   const sql = format(
     `DELETE FROM users WHERE user_id = %s RETURNING *;`,
-    userId
+    productId
   );
   try {
     const { rows } = await client.query(sql);
-    console.log(`USER DELETED`, rows);
+    console.log(`PRODUCT DELETED`, rows);
     return rows;
   } catch (error) {
     throw error;
   }
 }
+
 module.exports = {
-  updateUser,
-  deleteUser,
+  updateProduct,
+  deleteProduct,
 };

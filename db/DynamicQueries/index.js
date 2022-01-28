@@ -1,5 +1,6 @@
 const { createValueString, pool } = require("../index");
 const format = require("pg-format");
+const { getUserCart } = require("../Cart/cartDBFunctions");
 
 async function insertQuery(tableName, item) {
   const client = await pool.connect();
@@ -9,9 +10,12 @@ async function insertQuery(tableName, item) {
     Object.keys(item).join(","),
     createValueString(item)
   );
-
   try {
     const { rows } = await client.query(sql, Object.values(item));
+    if (tableName === "users") {
+      await getUserCart(rows[0].user_id);
+      rows[0].cart = [];
+    }
     console.log(`${tableName.toUpperCase()} CREATED`, rows);
     return rows;
   } catch (error) {
