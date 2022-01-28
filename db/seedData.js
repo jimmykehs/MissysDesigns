@@ -38,7 +38,7 @@ const seedProducts = [
   },
   {
     name: "Tesla Model S",
-    price: 80000,
+    price: 800.0,
   },
 ];
 

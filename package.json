@@ -12,6 +12,7 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "pg": "^8.7.1",
+    "pg-format": "^1.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
@@ -24,7 +25,8 @@
     "eject": "react-scripts eject",
     "server:dev": "nodemon index.js",
     "client:dev": "react-scripts start",
-    "seed:db": "node ./db/seed.js"
+    "seed:db": "node ./db/seed.js",
+    "test:db": "node ./db/testDB.js"
   },
   "eslintConfig": {
     "extends": [

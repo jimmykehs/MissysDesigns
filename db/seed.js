@@ -1,4 +1,4 @@
-const { createUser } = require("./Users/create.js");
+const { insertQuery, selectAllQuery } = require("./DynamicQueries/index.js");
 const { pool } = require("./index.js");
 const { seedUsers, seedProducts } = require("./seedData");
 
@@ -35,7 +35,7 @@ async function buildTables(client) {
         CREATE TABLE products(
             product_id SERIAL PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
-            price NUMERIC(2) NOT NULL,
+            price NUMERIC(5,2) NOT NULL,
             active BOOLEAN DEFAULT TRUE,
             image_url VARCHAR(255)
         );
@@ -55,7 +55,7 @@ async function buildTables(client) {
             product_id INTEGER REFERENCES products(product_id),
             order_id INTEGER REFERENCES orders(order_id),
             name VARCHAR(255) NOT NULL,
-            price NUMERIC(2) NOT NULL,
+            price NUMERIC(5,2) NOT NULL,
             image_url VARCHAR(255)
         );
       `);
@@ -67,7 +67,10 @@ async function buildTables(client) {
 
 async function seedData() {
   try {
-    await Promise.all(seedUsers.map(createUser));
+    await Promise.all(seedUsers.map((user) => insertQuery("users", user)));
+    await Promise.all(
+      seedProducts.map((product) => insertQuery("products", product))
+    );
   } catch (err) {
     console.log(err);
   }
