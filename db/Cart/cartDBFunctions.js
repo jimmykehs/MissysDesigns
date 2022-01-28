@@ -15,7 +15,7 @@ async function getUserCart(userId) {
       await client.query(createCartSQL);
       return [];
     }
-
+    const getCartProductsSQL = format("SELECT * FROM cart_products JOIN ");
     const cartProducts = await client.query();
   } catch (error) {
   } finally {
