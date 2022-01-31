@@ -5,9 +5,11 @@ const {
   createCart,
   getUserCartProducts,
 } = require("../Cart/cartDBFunctions.js");
+const bcrypt = require("bcrypt");
 
 async function createUser(user) {
   try {
+    user.password = await bcrypt.hash(user.password, 10);
     const sql = format(
       "INSERT INTO users(%s) VALUES(%s) RETURNING *;",
       Object.keys(user).join(","),
@@ -70,9 +72,26 @@ async function deleteUser(userId) {
   }
 }
 
+async function getUserByUsername(username) {
+  try {
+    const sql = format("SELECT * FROM users WHERE email=%L", username);
+    const {
+      rows: [user],
+    } = await pool.query(sql);
+    if (user === undefined) {
+      throw new Error("Incorrect Credentials");
+    }
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createUser,
   getUserById,
+  getUserByUsername,
   updateUser,
   deleteUser,
 };
