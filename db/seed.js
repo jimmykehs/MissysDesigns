@@ -6,12 +6,12 @@ const { createProduct } = require("./Products/productDBFunctions.js");
 async function dropTables(client) {
   try {
     await client.query(`
-        DROP TABLE IF EXISTS ordered_products;
-        DROP TABLE IF EXISTS orders;
-        DROP TABLE IF EXISTS cart_products;
-        DROP TABLE IF EXISTS carts;
-        DROP TABLE IF EXISTS products;
-        DROP TABLE IF EXISTS users;
+        DROP TABLE IF EXISTS ordered_products CASCADE;
+        DROP TABLE IF EXISTS orders CASCADE;
+        DROP TABLE IF EXISTS cart_products CASCADE;
+        DROP TABLE IF EXISTS carts CASCADE;
+        DROP TABLE IF EXISTS products CASCADE;
+        DROP TABLE IF EXISTS users CASCADE;
     `);
     console.log("Tables Dropped!");
   } catch (err) {
@@ -53,11 +53,18 @@ async function buildTables(client) {
         );
         CREATE TABLE orders(
             order_id SERIAL PRIMARY KEY,
-            user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE
+            user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
+            email VARCHAR(255) NOT NULL,
+            address VARCHAR(255) NOT NULL,
+            city VARCHAR(50) NOT NULL,
+            state VARCHAR(2) NOT NULL,
+            zip VARCHAR(5) NOT NULL,
+            status VARCHAR(255) DEFAULT 'Processing'
         );
         CREATE TABLE ordered_products(
+          order_id INTEGER REFERENCES orders(order_id),
             product_id INTEGER REFERENCES products(product_id),
-            order_id INTEGER REFERENCES orders(order_id),
+            quantity INTEGER NOT NULL,
             name VARCHAR(255) NOT NULL,
             price NUMERIC(5,2) NOT NULL,
             image_url VARCHAR(255)

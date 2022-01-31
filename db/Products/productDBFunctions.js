@@ -21,7 +21,7 @@ async function createProduct(product) {
 
 async function updateProduct(updateData, productId) {
   const sql = format(
-    `UPDATE users SET %s WHERE user_id = %s RETURNING *;`,
+    `UPDATE products SET %s WHERE product_id = %s RETURNING *;`,
     createSetString(updateData),
     productId
   );
@@ -29,7 +29,9 @@ async function updateProduct(updateData, productId) {
     const { rows } = await pool.query(sql, Object.values(updateData));
     console.log("PRODUCT UPDATED", rows);
     return rows;
-  } catch (error) {}
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function deleteProduct(productId) {
@@ -46,8 +48,32 @@ async function deleteProduct(productId) {
   }
 }
 
+async function getAllProducts() {
+  try {
+    const sql = format("SELECT * FROM PRODUCTS;");
+    const { rows } = await pool.query(sql);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getProductById(productId) {
+  try {
+    const sql = format("SELECT * FROM products WHERE product_id=%L", productId);
+    const {
+      rows: [product],
+    } = await pool.query(sql);
+    return product;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createProduct,
+  getAllProducts,
+  getProductById,
   updateProduct,
   deleteProduct,
 };
