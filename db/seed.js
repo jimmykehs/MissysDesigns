@@ -1,6 +1,7 @@
-const { insertQuery, selectAllQuery } = require("./DynamicQueries/index.js");
 const { pool } = require("./index.js");
 const { seedUsers, seedProducts } = require("./seedData");
+const { createUser } = require("./Users/userDBFunctions.js");
+const { createProduct } = require("./Products/productDBFunctions.js");
 
 async function dropTables(client) {
   try {
@@ -41,11 +42,14 @@ async function buildTables(client) {
         );
         CREATE TABLE carts(
             cart_id SERIAL PRIMARY KEY,
-            user_id INTEGER REFERENCES users (user_id) ON DELETE CASCADE
+            user_id INTEGER REFERENCES users (user_id) ON DELETE CASCADE,
+            UNIQUE (cart_id, user_id)
         );
         CREATE TABLE cart_products(
             cart_id INTEGER REFERENCES carts(cart_id) ON DELETE CASCADE,
-            product_id INTEGER REFERENCES products(product_id) ON DELETE CASCADE
+            product_id INTEGER REFERENCES products(product_id) ON DELETE CASCADE,
+            quantity INTEGER NOT NULL DEFAULT 1,
+            UNIQUE (cart_id, product_id)
         );
         CREATE TABLE orders(
             order_id SERIAL PRIMARY KEY,
@@ -67,10 +71,8 @@ async function buildTables(client) {
 
 async function seedData() {
   try {
-    await Promise.all(seedUsers.map((user) => insertQuery("users", user)));
-    await Promise.all(
-      seedProducts.map((product) => insertQuery("products", product))
-    );
+    await Promise.all(seedUsers.map(createUser));
+    await Promise.all(seedProducts.map(createProduct));
   } catch (err) {
     console.log(err);
   }

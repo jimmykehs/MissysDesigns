@@ -1,21 +1,17 @@
-const { getUserCart } = require("./Cart/cartDBFunctions");
 const {
-  deleteUser,
-  updateUser,
-  getUserById,
-} = require("./Users/userDBFunctions");
+  addProductToCart,
+  updateProductQuantity,
+  removeProductFromCart,
+} = require("./Cart/cartDBFunctions");
+const { getUserById } = require("./Users/userDBFunctions");
 
 const update = async () => {
-  await updateUser(
-    {
-      address: `1234 Main Street`,
-      city: `Baltimore`,
-      state: "MD",
-      zip: "12345",
-    },
-    2
-  );
-
+  await addProductToCart(1, 1, 5);
+  await addProductToCart(1, 2);
+  await getUserById(1);
+  await updateProductQuantity(1, 1, 10);
+  await getUserById(1);
+  await removeProductFromCart(1, 1);
   await getUserById(1);
 };
 
