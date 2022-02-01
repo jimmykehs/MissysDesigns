@@ -27,12 +27,13 @@ async function addProductToCart(userId, productId, quantity = 1) {
   try {
     const cartId = await getUserCartId(userId);
     const sql = format(
-      "INSERT INTO cart_products(cart_id, product_id, quantity) VALUES (%L, %L, %L) ON CONFLICT (cart_id,product_id) DO NOTHING;",
+      "INSERT INTO cart_products(cart_id, product_id, quantity) VALUES (%L, %L, %L) ON CONFLICT (cart_id,product_id) DO NOTHING RETURNING *;",
       cartId,
       productId,
       quantity
     );
-    await pool.query(sql);
+    const { rows } = await pool.query(sql);
+    return rows;
   } catch (error) {
     throw error;
   }
@@ -89,8 +90,23 @@ async function removeProductFromCart(userId, productId) {
   }
 }
 
+async function clearCart(userId) {
+  try {
+    const cartId = await getUserCartId(userId);
+    const sql = format(
+      "DELETE FROM cart_products WHERE cart_id = %L RETURNING *;",
+      cartId
+    );
+    const { rows } = await pool.query(sql);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   addProductToCart,
+  clearCart,
   createCart,
   getUserCartId,
   getUserCartProducts,

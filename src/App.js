@@ -1,8 +1,13 @@
-import './App.css';
+import "./App.css";
+import NavBar from "./Components/Navbar/navbar";
+import PageTitle from "./Components/PageTitle/pageTitle";
 
 function App() {
   return (
-<h1>Hello World</h1>
+    <div id="app">
+      <PageTitle pageTitle={"Test"} />
+      <NavBar />
+    </div>
   );
 }
 

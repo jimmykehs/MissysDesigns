@@ -1,0 +1,15 @@
+#navbar {
+  width: 100vw;
+  height: 75px;
+  background-color: #171c1e;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: fixed;
+  bottom: 0;
+}
+
+.nav-icon {
+  height: 35px;
+  width: 35px;
+}

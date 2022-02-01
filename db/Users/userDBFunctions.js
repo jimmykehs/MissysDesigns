@@ -34,7 +34,6 @@ async function getUserById(userId) {
     } = await pool.query(sql);
     if (user) {
       user.cart = await getUserCartProducts(userId);
-      console.log(user);
       return user;
     }
   } catch (error) {

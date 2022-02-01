@@ -26,12 +26,24 @@ async function authenticateUser(req, res, next) {
   }
 }
 
-async function generateAccessToken(user) {
-  return await jwt.sign({ id: user.user_id }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "15s",
-  });
+async function checkForUser(req, res, next) {
+  try {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader.split(" ")[1];
+    const user = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    req.user = user;
+    next();
+  } catch (error) {
+    next();
+  }
 }
+
+function generateAccessToken(user) {
+  return jwt.sign({ id: user.user_id }, process.env.ACCESS_TOKEN_SECRET);
+}
+
 module.exports = {
   authenticateUser,
+  checkForUser,
   generateAccessToken,
 };

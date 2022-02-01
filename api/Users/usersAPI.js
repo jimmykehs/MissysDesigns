@@ -27,8 +27,7 @@ usersRouter.post("/login", async (req, res, next) => {
     const pwMatch = await bcrypt.compare(req.body.password, user.password);
     if (pwMatch) {
       const accessToken = await generateAccessToken(user);
-      const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
-      res.json({ accessToken, refreshToken });
+      res.send({ accessToken });
     } else {
       throw new Error("Invalid Credentials");
     }
