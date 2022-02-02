@@ -38,7 +38,7 @@ async function buildTables(client) {
             name VARCHAR(255) NOT NULL,
             price NUMERIC(5,2) NOT NULL,
             active BOOLEAN DEFAULT TRUE,
-            image_url VARCHAR(255)
+            image_url VARCHAR(255) DEFAULT '../Images/NoImage.png'
         );
         CREATE TABLE carts(
             cart_id SERIAL PRIMARY KEY,

@@ -31,14 +31,31 @@ const seedProducts = [
   {
     name: "DAWN FM Vinyl",
     price: 50.75,
+    image_url: "../Images/DawnFM.jpeg",
   },
   {
     name: "Pizza Rolls - 130 CT",
     price: 10.0,
   },
   {
-    name: "Tesla Model S",
-    price: 800.0,
+    name: "Design #1",
+    price: 15.0,
+  },
+  {
+    name: "Design #2",
+    price: 15.0,
+  },
+  {
+    name: "Design #3",
+    price: 15.0,
+  },
+  {
+    name: "Design #4",
+    price: 15.0,
+  },
+  {
+    name: "Design #5",
+    price: 15.0,
   },
 ];
 

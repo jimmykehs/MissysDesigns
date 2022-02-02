@@ -3,9 +3,25 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+html,
+body {
+  overflow: hidden;
+}
 #root,
 #app {
   width: 100vw;
+  min-height: 100vh;
   background-color: #efefef;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  padding-top: 10vh;
+}
+
+.page-title {
+  text-align: center;
+  padding: 15px;
 }

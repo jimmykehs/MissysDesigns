@@ -1,13 +1,60 @@
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import NavBar from "./Components/Navbar/navbar";
-import PageTitle from "./Components/PageTitle/pageTitle";
+import AllProducts from "./Components/AllProducts/allProducts";
+import ProductDetails from "./Components/AllProducts/ProductDetails.jsx";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [allProducts, setAllProducts] = useState([]);
+  const [cart, setCart] = useState(
+    JSON.parse(localStorage.getItem("MDCart")) || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("MDCart", JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    const localStorageCart = localStorage.getItem("MDCart");
+    if (localStorageCart) {
+      setCart(JSON.parse(localStorageCart));
+    }
+
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((result) => setAllProducts(result));
+  }, []);
   return (
-    <div id="app">
-      <PageTitle pageTitle={"Test"} />
-      <NavBar />
-    </div>
+    <Router>
+      <div id="app">
+        <NavBar />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <AllProducts
+                allProducts={allProducts}
+                setCart={setCart}
+                cart={cart}
+              />
+            }
+          />
+          <Route path="/account" />
+          <Route path="/cart" />
+          <Route
+            path="/product/:id"
+            element={
+              <ProductDetails
+                allProducts={allProducts}
+                setCart={setCart}
+                cart={cart}
+              />
+            }
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
