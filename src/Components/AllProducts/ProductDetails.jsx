@@ -2,23 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { backArrow, minus, plus } from "../../Images";
 
-const ProductDetails = ({ allProducts, cart, setCart }) => {
-  const [quantity, setQuantity] = useState(1);
-  const navigate = useNavigate();
+const ProductDetails = ({ cart, setCart, allProducts }) => {
   const { id } = useParams();
-  const product = allProducts.find(
-    ({ product_id }) => product_id === Number(id)
+  const [productInCart, setProductInCart] = useState(
+    cart.find((cartProduct) => cartProduct.id === Number(id))
   );
-  const ProductInCart = cart.find(
-    (cartItem) => cartItem.id === product.product_id
+  const [quantity, setQuantity] = useState(
+    productInCart ? productInCart.quantity : 1
   );
+  const [updateQuantity, setUpdateQuantity] = useState(false);
+  const product = allProducts.find((findProduct) => {
+    return findProduct.product_id === Number(id);
+  });
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (quantity < 1 && quantity !== "") {
-      alert("Quantity can't be less than one!");
-      setQuantity(1);
-    }
-  }, [quantity]);
   return product !== undefined ? (
     <div id="product-details-page">
       <div className="product-details-header">
@@ -56,17 +53,37 @@ const ProductDetails = ({ allProducts, cart, setCart }) => {
             ></img>
           </div>
 
-          {ProductInCart ? (
-            <button
-              className="remove-from-cart-btn-lg"
-              onClick={() => {
-                setCart(
-                  cart.filter((cartItem) => cartItem.id !== product.product_id)
-                );
-              }}
-            >
-              Remove From Cart
-            </button>
+          {productInCart ? (
+            updateQuantity ? (
+              <button
+                className="update-quantity-btn-lg"
+                onClick={() => {
+                  const indexOfProduct = cart.findIndex((cartProduct) => {
+                    return cartProduct.id === Number(id);
+                  });
+                  const updatedCart = [...cart];
+                  updatedCart[indexOfProduct].quantity = quantity;
+                  setCart(updatedCart);
+                  setUpdateQuantity(false);
+                }}
+              >
+                Update Quantity
+              </button>
+            ) : (
+              <button
+                className="remove-from-cart-btn-lg"
+                onClick={() => {
+                  setCart(
+                    cart.filter(
+                      (cartItem) => cartItem.id !== product.product_id
+                    )
+                  );
+                  setProductInCart(false);
+                }}
+              >
+                Remove From Cart
+              </button>
+            )
           ) : (
             <button
               className="add-to-cart-btn-lg"
@@ -74,6 +91,7 @@ const ProductDetails = ({ allProducts, cart, setCart }) => {
                 const newCart = [...cart];
                 newCart.push({ id: product.product_id, quantity });
                 setCart(newCart);
+                setProductInCart({ id: product.product_id, quantity });
               }}
             >
               Add to Cart

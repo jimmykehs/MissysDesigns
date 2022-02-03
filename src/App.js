@@ -4,6 +4,7 @@ import NavBar from "./Components/Navbar/navbar";
 import AllProducts from "./Components/AllProducts/allProducts";
 import ProductDetails from "./Components/AllProducts/ProductDetails.jsx";
 import { useEffect, useState } from "react";
+import CartPage from "./Components/Cart/cart";
 
 function App() {
   const [allProducts, setAllProducts] = useState([]);
@@ -41,7 +42,10 @@ function App() {
             }
           />
           <Route path="/account" />
-          <Route path="/cart" />
+          <Route
+            path="/cart"
+            element={<CartPage cart={cart} setCart={setCart} />}
+          />
           <Route
             path="/product/:id"
             element={
