@@ -1,29 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { plus, minus } from "../../Images";
 
-const CartItem = ({ cartProduct, setCart, cart, index }) => {
+const CartItem = ({ product, setCart, cart, index }) => {
+  const [quantity, setQuantity] = useState(product.quantity);
   const [dbProduct, setdbProduct] = useState({});
-  const [quantity, setQuantity] = useState(cartProduct.quantity);
 
   useEffect(() => {
-    fetch(`/api/products/${cartProduct.id}`)
+    fetch(`api/products/${product.id}`)
       .then((res) => res.json())
-      .then((result) => setdbProduct(result));
-  }, [cartProduct]);
+      .then((result) => {
+        setdbProduct(result);
+      });
+  }, []);
+
+  function updateCart() {
+    const newCart = [...cart];
+    newCart[index].quantity = quantity;
+    setCart(newCart);
+  }
 
   useEffect(() => {
-    const updatedCart = [...cart];
-    updatedCart[index].quantity = quantity;
-    setCart(updatedCart);
+    updateCart();
   }, [quantity]);
 
-  const { product_id, name, price, image_url } = dbProduct;
+  const { name, image_url, price, product_id } = dbProduct;
   return (
     <div className="cart-item">
       <img className="product-image" src={image_url} alt="Product" />
       <div className="name-price-cart-item">
         <p>{name}</p>
-        <p>${(price * quantity).toFixed(2)}</p>
+        <p>${(Number(price) * quantity).toFixed(2)}</p>
       </div>
       <div className="options-cart-item">
         <div className="quantity-input">
@@ -33,25 +39,31 @@ const CartItem = ({ cartProduct, setCart, cart, index }) => {
             onClick={() => {
               setQuantity(quantity - 1);
             }}
-          ></img>
+          />
           <input
             type="number"
             value={quantity}
             onChange={(e) => {
               setQuantity(e.target.value);
             }}
+            onBlur={(e) => {
+              setQuantity(Number(e.target.value));
+            }}
           />
           <img
             src={plus}
             alt="Increment Quantity"
-            onClick={() => setQuantity(quantity + 1)}
-          ></img>
+            onClick={() => {
+              setQuantity(quantity + 1);
+            }}
+          />
         </div>
         <button
           onClick={() => {
             setCart(
               cart.filter((cartProduct) => cartProduct.id !== product_id)
             );
+            // addToTotal(-(price * quantity));
           }}
         >
           Remove

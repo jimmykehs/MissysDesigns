@@ -6,12 +6,12 @@
 html,
 body {
   overflow: hidden;
+  font-family: "Roboto", sans-serif;
 }
 #root,
 #app {
   width: 100vw;
   min-height: 100vh;
-  background-color: #efefef;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -19,6 +19,7 @@ body {
   right: 0;
   overflow: auto;
   padding-top: 10vh;
+  padding-bottom: 250px;
 }
 
 .page-title {

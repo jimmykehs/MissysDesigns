@@ -2,7 +2,6 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import NavBar from "./Components/Navbar/navbar";
 import AllProducts from "./Components/AllProducts/allProducts";
-import ProductDetails from "./Components/AllProducts/ProductDetails.jsx";
 import { useEffect, useState } from "react";
 import CartPage from "./Components/Cart/cart";
 
@@ -24,7 +23,9 @@ function App() {
 
     fetch("/api/products")
       .then((res) => res.json())
-      .then((result) => setAllProducts(result));
+      .then((result) => {
+        setAllProducts(result.sort((a, b) => a.name - b.name));
+      });
   }, []);
   return (
     <Router>
@@ -45,16 +46,6 @@ function App() {
           <Route
             path="/cart"
             element={<CartPage cart={cart} setCart={setCart} />}
-          />
-          <Route
-            path="/product/:id"
-            element={
-              <ProductDetails
-                allProducts={allProducts}
-                setCart={setCart}
-                cart={cart}
-              />
-            }
           />
         </Routes>
       </div>

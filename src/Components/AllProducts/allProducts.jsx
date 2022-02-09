@@ -8,13 +8,14 @@ const AllProducts = ({ allProducts, setCart, cart }) => {
       <h1 className="page-title">All Products</h1>
       <div id="all-products">
         {allProducts &&
-          allProducts.map((product) => {
+          allProducts.map((product, index) => {
             return (
               <ProductCard
                 key={product.product_id}
                 product={product}
                 cart={cart}
                 setCart={setCart}
+                index={index}
               />
             );
           })}

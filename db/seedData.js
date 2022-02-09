@@ -34,27 +34,23 @@ const seedProducts = [
     image_url: "../Images/DawnFM.jpeg",
   },
   {
-    name: "Pizza Rolls - 130 CT",
-    price: 10.0,
-  },
-  {
-    name: "Design #1",
+    name: "#1",
     price: 15.0,
   },
   {
-    name: "Design #2",
+    name: "#2",
     price: 15.0,
   },
   {
-    name: "Design #3",
+    name: "#3",
     price: 15.0,
   },
   {
-    name: "Design #4",
+    name: "#4",
     price: 15.0,
   },
   {
-    name: "Design #5",
+    name: "#5",
     price: 15.0,
   },
 ];
