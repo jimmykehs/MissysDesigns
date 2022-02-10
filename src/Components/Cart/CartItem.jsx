@@ -1,35 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { plus, minus } from "../../Images";
 
-const CartItem = ({ product, setCart, cart, index }) => {
-  const [quantity, setQuantity] = useState(product.quantity);
-  const [dbProduct, setdbProduct] = useState({});
+const CartItem = ({
+  cartProduct,
+  index,
+  updateCartItemQuantity,
+  updateItemPrices,
+  removeItemFromCart,
+}) => {
+  const [quantity, setQuantity] = useState(cartProduct.quantity || 0);
+  const [dbProduct, setDBProduct] = useState([]);
 
   useEffect(() => {
-    fetch(`api/products/${product.id}`)
+    fetch(`/api/products/${cartProduct.id}`)
       .then((res) => res.json())
       .then((result) => {
-        setdbProduct(result);
+        console.log(result.name, "FETCHED");
+        setDBProduct(result);
       });
-  }, []);
-
-  function updateCart() {
-    const newCart = [...cart];
-    newCart[index].quantity = quantity;
-    setCart(newCart);
-  }
+  }, [cartProduct]);
 
   useEffect(() => {
-    updateCart();
+    updateItemPrices(index, dbProduct.price * quantity);
+  }, [dbProduct]);
+
+  useEffect(() => {
+    updateCartItemQuantity(index, quantity);
+    updateItemPrices(index, dbProduct.price * quantity);
   }, [quantity]);
 
-  const { name, image_url, price, product_id } = dbProduct;
+  const { name, price, image_url } = dbProduct;
   return (
     <div className="cart-item">
       <img className="product-image" src={image_url} alt="Product" />
       <div className="name-price-cart-item">
         <p>{name}</p>
-        <p>${(Number(price) * quantity).toFixed(2)}</p>
+        <p>${(price * quantity).toFixed(2)}</p>
       </div>
       <div className="options-cart-item">
         <div className="quantity-input">
@@ -46,9 +52,6 @@ const CartItem = ({ product, setCart, cart, index }) => {
             onChange={(e) => {
               setQuantity(e.target.value);
             }}
-            onBlur={(e) => {
-              setQuantity(Number(e.target.value));
-            }}
           />
           <img
             src={plus}
@@ -60,10 +63,7 @@ const CartItem = ({ product, setCart, cart, index }) => {
         </div>
         <button
           onClick={() => {
-            setCart(
-              cart.filter((cartProduct) => cartProduct.id !== product_id)
-            );
-            // addToTotal(-(price * quantity));
+            removeItemFromCart(cartProduct.id, index);
           }}
         >
           Remove
