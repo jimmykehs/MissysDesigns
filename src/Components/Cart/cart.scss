@@ -3,7 +3,8 @@
   flex-direction: column;
 }
 
-.cart-item {
+.cart-item,
+.order-item {
   box-sizing: content-box;
   padding: 10px;
   position: relative;

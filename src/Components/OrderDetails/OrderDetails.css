@@ -1,0 +1,45 @@
+#order-details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100vw;
+}
+
+.order-contact-container {
+  background-color: #ebebeb;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.order-status {
+  width: 150px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 3px;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.processing {
+  background-color: #eeee41;
+}
+
+.production {
+  background-color: orange;
+}
+
+.canceled {
+  background-color: #d81515;
+  color: white;
+}
+
+.shipped {
+  background-color: #1ca81c;
+  color: white;
+}
+/*# sourceMappingURL=OrderDetails.css.map */

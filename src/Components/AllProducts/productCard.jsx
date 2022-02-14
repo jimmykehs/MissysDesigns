@@ -4,7 +4,7 @@ import { minus, plus } from "../../Images";
 const ProductCard = ({ product, setCart, cart }) => {
   const [productInCart, setProductInCart] = useState(
     cart.find((cartProduct) => cartProduct.id === Number(product.product_id)) ||
-      {}
+      []
   );
   const [quantity, setQuantity] = useState(
     productInCart.quantity ? productInCart.quantity : 1

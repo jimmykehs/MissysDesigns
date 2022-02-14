@@ -15,7 +15,6 @@ const CartItem = ({
     fetch(`/api/products/${cartProduct.id}`)
       .then((res) => res.json())
       .then((result) => {
-        console.log(result.name, "FETCHED");
         setDBProduct(result);
       });
   }, [cartProduct]);

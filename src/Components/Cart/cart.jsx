@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CartItem from "./CartItem";
 import "./cart.css";
 import Total from "./Total";
 
 const CartPage = ({ cart, setCart }) => {
   const [itemPrices, setItemPrices] = useState([0]);
-
+  let navigate = useNavigate();
   useEffect(() => {
     getTotal();
   }, [itemPrices]);
@@ -38,21 +39,34 @@ const CartPage = ({ cart, setCart }) => {
 
   return (
     <div id="cart">
-      <h1 className="page-title">Your Cart</h1>
-      {cart.map((cartProduct, index) => {
-        return (
-          <CartItem
-            key={cartProduct.id}
-            cartProduct={cartProduct}
-            index={index}
-            updateCartItemQuantity={updateCartItemQuantity}
-            updateItemPrices={updateItemPrices}
-            removeItemFromCart={removeItemFromCart}
-          />
-        );
-      })}
-      <Total total={getTotal()} />
-      <button className="proceed-to-checkout-btn">Proceed to Checkout</button>
+      {cart.length > 0 ? (
+        <>
+          <h1 className="page-title">Your Cart</h1>
+          {cart.map((cartProduct, index) => {
+            return (
+              <CartItem
+                key={cartProduct.id}
+                cartProduct={cartProduct}
+                index={index}
+                updateCartItemQuantity={updateCartItemQuantity}
+                updateItemPrices={updateItemPrices}
+                removeItemFromCart={removeItemFromCart}
+              />
+            );
+          })}
+          <Total total={getTotal()} />
+          <button
+            className="proceed-to-checkout-btn"
+            onClick={() => {
+              navigate("/customershipping");
+            }}
+          >
+            Continue to Checkout
+          </button>
+        </>
+      ) : (
+        <h1 className="page-title">Your Cart is Empty!</h1>
+      )}
     </div>
   );
 };

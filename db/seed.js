@@ -52,17 +52,20 @@ async function buildTables(client) {
             UNIQUE (cart_id, product_id)
         );
         CREATE TABLE orders(
-            order_id SERIAL PRIMARY KEY,
+            order_id VARCHAR(255) PRIMARY KEY,
             user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
+            first_name VARCHAR(255) NOT NULL,
+            last_name VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL,
-            address VARCHAR(255) NOT NULL,
+            address1 VARCHAR(255) NOT NULL,
+            address2 VARCHAR(255),
             city VARCHAR(50) NOT NULL,
             state VARCHAR(2) NOT NULL,
             zip VARCHAR(5) NOT NULL,
             status VARCHAR(255) DEFAULT 'Processing'
         );
         CREATE TABLE ordered_products(
-          order_id INTEGER REFERENCES orders(order_id),
+          order_id VARCHAR(255) REFERENCES orders(order_id),
             product_id INTEGER REFERENCES products(product_id),
             quantity INTEGER NOT NULL,
             name VARCHAR(255) NOT NULL,
