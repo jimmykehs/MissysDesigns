@@ -1,37 +1,12 @@
 const express = require("express");
 const { authenticateUser, checkForUser } = require("../utils");
-const axios = require("axios");
-const qs = require("qs");
 const {
   createOrder,
   getOrderById,
 } = require("../../db/Orders/orderDBFunctions");
+const { sendOrderConfirmationEmail } = require("../email");
 const ordersRouter = express.Router();
 
-async function getPayPalToken() {
-  try {
-    const options = {
-      method: "POST",
-      data: "grant_type=client_credentials",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      auth: {
-        username: process.env.REACT_APP_PAYPAL_CLIENT_ID,
-        password: process.env.REACT_APP_PAYPAL_SECRET_ID,
-      },
-      url: "https://api.sandbox.paypal.com/v1/oauth2/token",
-    };
-    const {
-      data: { access_token },
-    } = await axios(options);
-
-    return access_token;
-  } catch (error) {
-    throw error;
-  }
-}
 ordersRouter.get("/:orderId", async (req, res, next) => {
   try {
     console.log("IN ROUTE");
@@ -71,8 +46,8 @@ ordersRouter.post("/", async (req, res, next) => {
     };
 
     const newOrder = await createOrder(id, contactInfo, cart);
-    console.log(newOrder);
-    res.send(req.body);
+    await sendOrderConfirmationEmail(id);
+    res.send(newOrder);
   } catch (error) {
     console.log(error);
     next(error);

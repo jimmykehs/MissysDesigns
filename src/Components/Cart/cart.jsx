@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import CartItem from "./CartItem";
+import CheckoutButton from "./CheckoutButton";
 import "./cart.css";
 import Total from "./Total";
 
 const CartPage = ({ cart, setCart }) => {
   const [itemPrices, setItemPrices] = useState([0]);
-  let navigate = useNavigate();
   useEffect(() => {
     getTotal();
   }, [itemPrices]);
@@ -55,14 +55,11 @@ const CartPage = ({ cart, setCart }) => {
             );
           })}
           <Total total={getTotal()} />
-          <button
-            className="proceed-to-checkout-btn"
-            onClick={() => {
-              navigate("/customershipping");
-            }}
-          >
-            Continue to Checkout
-          </button>
+          <CheckoutButton
+            setCart={setCart}
+            cart={cart}
+            itemPrices={itemPrices}
+          />
         </>
       ) : (
         <h1 className="page-title">Your Cart is Empty!</h1>

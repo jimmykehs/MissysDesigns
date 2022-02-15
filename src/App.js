@@ -1,10 +1,9 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./Components/Navbar/navbar";
 import AllProducts from "./Components/AllProducts/allProducts";
 import { useEffect, useState } from "react";
 import CartPage from "./Components/Cart/cart";
-import ShippingDetails from "./Components/Checkout/ShippingDetails";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import OrderDetails from "./Components/OrderDetails/OrderDetails";
 
@@ -57,10 +56,6 @@ function App() {
             <Route
               path="/cart"
               element={<CartPage cart={cart} setCart={setCart} />}
-            />
-            <Route
-              path="/customershipping"
-              element={<ShippingDetails cart={cart} setCart={setCart} />}
             />
             <Route path="/orders/:orderId" element={<OrderDetails />} />
           </Routes>
