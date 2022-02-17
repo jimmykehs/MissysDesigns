@@ -62,7 +62,9 @@ async function buildTables(client) {
             city VARCHAR(50) NOT NULL,
             state VARCHAR(2) NOT NULL,
             zip VARCHAR(5) NOT NULL,
-            status VARCHAR(255) DEFAULT 'Processing'
+            status VARCHAR(255) DEFAULT 'Processing',
+            special_instructions TEXT,
+            total NUMERIC(5,2) NOT NULL
         );
         CREATE TABLE ordered_products(
           order_id VARCHAR(255) REFERENCES orders(order_id),

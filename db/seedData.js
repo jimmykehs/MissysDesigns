@@ -36,10 +36,12 @@ const seedProducts = [
   {
     name: "#1",
     price: 15.0,
+    image_url: "../Images/Design1.png",
   },
   {
     name: "#2",
     price: 15.0,
+    image_url: "../Images/Design2.png",
   },
   {
     name: "#3",

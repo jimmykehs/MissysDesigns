@@ -4,12 +4,11 @@ const OrderedProductCard = ({ product }) => {
   const { image_url, name, price, quantity } = product;
   return (
     <div className="order-item">
+      <p className="ordered-product-quantity">{quantity}</p>
       <img className="product-image" src={image_url} alt="Product" />
       <div className="name-price-cart-item">
-        <p>
-          {quantity}X {name}
-        </p>
-        <p>${(price * quantity).toFixed(2)}</p>
+        <p className="cart-item-name">{name}</p>
+        <p className="cart-item-price">${price}</p>
       </div>
     </div>
   );

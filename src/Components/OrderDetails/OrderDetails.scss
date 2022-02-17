@@ -2,36 +2,59 @@
   display: flex;
   flex-direction: column;
   width: 100vw;
+  padding-bottom: 200px;
 }
 
 .order-contact-container {
-  background-color: rgb(235, 235, 235);
+  color: #fff;
   padding: 15px;
   margin: 10px 0;
+
+  h3 {
+    font-weight: 700;
+    font-size: 18px;
+  }
+  p {
+    font-weight: 300;
+    font-size: 18px;
+  }
 }
 
-.order-status {
-  width: 150px;
+.order-status-container,
+.order-instructions-container {
+  width: 100%;
   text-align: center;
-  padding: 5px;
+  padding: 0 15px;
   border-radius: 3px;
   align-self: center;
+  display: flex;
+  justify-content: flex-start;
+
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+  .order-status,
+  .order-instructions {
+    font-weight: 300;
+  }
 }
 
-.processing {
-  background-color: rgb(238, 238, 65);
+.ordered-product-quantity {
+  font-weight: 100;
+  font-size: 24px;
+  margin-right: 20px;
 }
 
-.production {
-  background-color: orange;
-}
-
-.canceled {
-  background-color: rgb(216, 21, 21);
-  color: white;
-}
-
-.shipped {
-  background-color: rgb(28, 168, 28);
-  color: white;
+.order-total-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-weight: 300;
+  font-size: 24px;
+  background-color: #363636;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 25px 15px;
 }

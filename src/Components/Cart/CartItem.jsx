@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { plus, minus } from "../../Images";
+// import { plus, minus } from "../../Images";
 
 const CartItem = ({
   cartProduct,
@@ -33,18 +33,20 @@ const CartItem = ({
     <div className="cart-item">
       <img className="product-image" src={image_url} alt="Product" />
       <div className="name-price-cart-item">
-        <p>{name}</p>
-        <p>${(price * quantity).toFixed(2)}</p>
+        <p className="cart-item-name">{name}</p>
+        <p className="cart-item-price">${(price * quantity).toFixed(2)}</p>
       </div>
       <div className="options-cart-item">
         <div className="quantity-input">
-          <img
-            src={minus}
+          <button
+            className="decrease-quantity-btn"
             alt="Decremement Quantity"
             onClick={() => {
               setQuantity(quantity - 1);
             }}
-          />
+          >
+            -
+          </button>
           <input
             type="number"
             value={quantity}
@@ -52,15 +54,17 @@ const CartItem = ({
               setQuantity(e.target.value);
             }}
           />
-          <img
-            src={plus}
+          <button
             alt="Increment Quantity"
             onClick={() => {
               setQuantity(quantity + 1);
             }}
-          />
+          >
+            +
+          </button>
         </div>
         <button
+          className="remove-from-cart-btn-sm"
           onClick={() => {
             removeItemFromCart(cartProduct.id, index);
           }}

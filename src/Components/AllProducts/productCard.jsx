@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { minus, plus } from "../../Images";
+import { plus } from "../../Images";
 
 const ProductCard = ({ product, setCart, cart }) => {
   const [productInCart, setProductInCart] = useState(
@@ -28,16 +28,8 @@ const ProductCard = ({ product, setCart, cart }) => {
   return (
     <>
       <div className="product-card">
-        <img
-          src={product.image_url}
-          alt="Product"
-          className="product-img"
-        ></img>
-        <div className="product-details-and-btn">
-          <div className="product-details">
-            <h3 className="product-name">{product.name}</h3>
-            <p className="product-price">${product.price}</p>
-          </div>
+        <div className="product-img-and-btn">
+          <img src={product.image_url} alt="Product" className="product-img" />
           <div className="product-button">
             {cart.find((cartItem) => cartItem.id === product.product_id) ? (
               <button
@@ -50,9 +42,7 @@ const ProductCard = ({ product, setCart, cart }) => {
                   );
                   setProductInCart({});
                 }}
-              >
-                Remove from Cart
-              </button>
+              ></button>
             ) : (
               <button
                 className="add-to-cart-btn"
@@ -62,32 +52,14 @@ const ProductCard = ({ product, setCart, cart }) => {
                   setCart(newCart);
                   setProductInCart({ id: product.product_id, quantity: 1 });
                 }}
-              >
-                Add to Cart
-              </button>
-            )}
-            {productInCart.id && (
-              <div className="quantity-input">
-                <img
-                  src={minus}
-                  alt="Decremement Quantity"
-                  onClick={() => setQuantity(quantity - 1)}
-                ></img>
-                <input
-                  type="number"
-                  value={quantity}
-                  onChange={(e) => {
-                    setQuantity(e.target.value);
-                  }}
-                />
-                <img
-                  src={plus}
-                  alt="Increment Quantity"
-                  onClick={() => setQuantity(quantity + 1)}
-                ></img>
-              </div>
+              ></button>
             )}
           </div>
+        </div>
+
+        <div className="product-details-and-btn">
+          <h3 className="product-name">{product.name}</h3>
+          <p className="product-price">${product.price}</p>
         </div>
       </div>
     </>

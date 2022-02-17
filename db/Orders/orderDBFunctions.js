@@ -2,15 +2,26 @@ const format = require("pg-format");
 const { pool, createValueString } = require("../index");
 const { getProductById } = require("../Products/productDBFunctions");
 
-async function createOrder(orderId, contactInfo, products, userId = null) {
+async function createOrder(
+  orderId,
+  contactInfo,
+  products,
+  total,
+  specialInstructions,
+  userId = null
+) {
+  console.log(orderId, contactInfo, products, total, specialInstructions);
   try {
     const sql = format(
-      "INSERT INTO orders(user_id, order_id, %s) VALUES(%L, %L, %s) RETURNING *;",
+      "INSERT INTO orders(user_id, order_id, total, special_instructions, %s) VALUES(%L, %L, %L, %L, %s) RETURNING *;",
       Object.keys(contactInfo).join(","),
       userId,
       orderId,
+      total,
+      specialInstructions,
       createValueString(contactInfo)
     );
+    console.log(sql);
     const {
       rows: [newOrder],
     } = await pool.query(sql, Object.values(contactInfo));

@@ -8,6 +8,12 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import OrderDetails from "./Components/OrderDetails/OrderDetails";
 
 function App() {
+  const [navContent, setNavContent] = useState({
+    navText: "Missy's Designs",
+    navTextLink: "/",
+    navHome: false,
+    navCart: true,
+  });
   const [allProducts, setAllProducts] = useState([]);
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("MDCart")) || []
@@ -40,7 +46,7 @@ function App() {
     <PayPalScriptProvider options={initialOptions}>
       <Router>
         <div id="app">
-          <NavBar />
+          <NavBar navContent={navContent} />
           <Routes>
             <Route
               path="/"
@@ -49,15 +55,24 @@ function App() {
                   allProducts={allProducts}
                   setCart={setCart}
                   cart={cart}
+                  setNavContent={setNavContent}
                 />
               }
             />
-            <Route path="/account" />
             <Route
               path="/cart"
-              element={<CartPage cart={cart} setCart={setCart} />}
+              element={
+                <CartPage
+                  cart={cart}
+                  setCart={setCart}
+                  setNavContent={setNavContent}
+                />
+              }
             />
-            <Route path="/orders/:orderId" element={<OrderDetails />} />
+            <Route
+              path="/orders/:orderId"
+              element={<OrderDetails setNavContent={setNavContent} />}
+            />
           </Routes>
         </div>
       </Router>

@@ -1,21 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { user, catalog, cart } from "../../Images";
+import { home, cart } from "../../Images";
 import "./navbar.css";
 
-const NavBar = () => {
+const NavBar = ({ navContent }) => {
   return (
     <div id="navbar">
-      <Link to="/">
-        <h1 id="logo">Missy's Designs</h1>
+      <Link to={navContent.navTextLink}>
+        <h1 id="logo">{navContent.navText}</h1>
       </Link>
       <div id="nav-icons-container">
-        {/* <Link to="/account">
-          <img className="nav-icon" src={user} alt="account" />
-        </Link> */}
-        <Link to="/cart">
-          <img className="nav-icon" src={cart} alt="cart" />
-        </Link>
+        {navContent.navHome && (
+          <Link to="/">
+            <img className="nav-icon" src={home} alt="account" />
+          </Link>
+        )}
+        {navContent.navCart && (
+          <Link to="/cart">
+            <img className="nav-icon" src={cart} alt="cart" />
+          </Link>
+        )}
       </div>
     </div>
   );

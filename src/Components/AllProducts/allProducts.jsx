@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProductCard from "./productCard";
 import "./products.css";
 
-const AllProducts = ({ allProducts, setCart, cart }) => {
+const AllProducts = ({ allProducts, setCart, cart, setNavContent }) => {
+  useEffect(() => {
+    setNavContent({
+      navText: "Missy's Designs",
+      navTextLink: "/",
+      navHome: false,
+      navCart: true,
+    });
+  }, []);
+
   return (
     <div id="all-products-page">
-      <h1 className="page-title">All Products</h1>
       <div id="all-products">
         {allProducts &&
           allProducts.map((product, index) => {

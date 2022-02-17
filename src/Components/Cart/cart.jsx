@@ -1,12 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import CartItem from "./CartItem";
 import CheckoutButton from "./CheckoutButton";
 import "./cart.css";
 import Total from "./Total";
 
-const CartPage = ({ cart, setCart }) => {
+const CartPage = ({ cart, setCart, setNavContent }) => {
   const [itemPrices, setItemPrices] = useState([0]);
+  const specialInstructions = useRef("");
+  useEffect(() => {
+    setNavContent({
+      navText: "Your Cart",
+      navTextLink: "/cart",
+      navHome: true,
+      navCart: false,
+    });
+  }, []);
+
   useEffect(() => {
     getTotal();
   }, [itemPrices]);
@@ -23,7 +33,6 @@ const CartPage = ({ cart, setCart }) => {
     const newPrices = [...itemPrices];
     newPrices[index] = price;
     setItemPrices(newPrices);
-    console.log(itemPrices);
   }
 
   function updateCartItemQuantity(index, quantity) {
@@ -33,7 +42,9 @@ const CartPage = ({ cart, setCart }) => {
   }
 
   function removeItemFromCart(itemId, index) {
-    itemPrices[index] = 0;
+    const newPrices = [...itemPrices];
+    newPrices[index] = 0;
+    setItemPrices(newPrices);
     setCart(cart.filter((cartProduct) => cartProduct.id !== itemId));
   }
 
@@ -41,7 +52,6 @@ const CartPage = ({ cart, setCart }) => {
     <div id="cart">
       {cart.length > 0 ? (
         <>
-          <h1 className="page-title">Your Cart</h1>
           {cart.map((cartProduct, index) => {
             return (
               <CartItem
@@ -54,12 +64,19 @@ const CartPage = ({ cart, setCart }) => {
               />
             );
           })}
-          <Total total={getTotal()} />
-          <CheckoutButton
-            setCart={setCart}
-            cart={cart}
-            itemPrices={itemPrices}
-          />
+
+          <div id="total-and-checkout-container">
+            <Total
+              total={getTotal()}
+              specialInstructions={specialInstructions}
+            />
+            <CheckoutButton
+              setCart={setCart}
+              cart={cart}
+              itemPrices={itemPrices}
+              specialInstructions={specialInstructions}
+            />
+          </div>
         </>
       ) : (
         <h1 className="page-title">Your Cart is Empty!</h1>

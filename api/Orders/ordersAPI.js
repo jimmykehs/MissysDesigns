@@ -20,19 +20,37 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 
 ordersRouter.post("/", async (req, res, next) => {
   try {
+    // const {
+    //   id,
+    //   purchase_units: [
+    //     {
+    //       shipping: { address },
+    //     },
+    //   ],
+    //   payer: {
+    //     name: { given_name, surname },
+    //     email_address,
+    //   },
+    // } = req.body;
+    // const { cart, total, specialInstructions } = req.body;
+    console.log(req.body);
     const {
-      purchase_units: [
-        {
-          shipping: { address },
+      details: {
+        id,
+        purchase_units: [
+          {
+            shipping: { address },
+          },
+        ],
+        payer: {
+          name: { given_name, surname },
+          email_address,
         },
-      ],
-      payer: {
-        name: { given_name, surname },
-        email_address,
       },
-    } = req.body[0];
-    const { id } = req.body[0];
-    const cart = req.body[1];
+      cart,
+      total,
+      specialInstructions,
+    } = req.body;
 
     const contactInfo = {
       first_name: given_name,
@@ -45,7 +63,13 @@ ordersRouter.post("/", async (req, res, next) => {
       zip: address.postal_code,
     };
 
-    const newOrder = await createOrder(id, contactInfo, cart);
+    const newOrder = await createOrder(
+      id,
+      contactInfo,
+      cart,
+      total,
+      specialInstructions
+    );
     await sendOrderConfirmationEmail(id);
     res.send(newOrder);
   } catch (error) {
