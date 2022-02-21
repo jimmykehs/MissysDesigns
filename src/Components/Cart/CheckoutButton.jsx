@@ -8,7 +8,7 @@ const CheckoutButton = ({ setCart, itemPrices, cart, specialInstructions }) => {
   useEffect(() => {
     function getTotal() {
       let subtotal = 0;
-      itemPrices.forEach((price) => (subtotal += price));
+      itemPrices.forEach((item) => (subtotal += item.price));
       return subtotal;
     }
     total.current = getTotal();

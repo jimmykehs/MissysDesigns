@@ -7,12 +7,11 @@
       -ms-flex-direction: column;
           flex-direction: column;
   width: 100vw;
-  padding-bottom: 200px;
+  padding: 0 50px 200px 50px;
 }
 
 .order-contact-container {
   color: #fff;
-  padding: 15px;
   margin: 10px 0;
 }
 
@@ -30,7 +29,6 @@
 .order-instructions-container {
   width: 100%;
   text-align: center;
-  padding: 0 15px;
   border-radius: 3px;
   -ms-flex-item-align: center;
       align-self: center;
@@ -50,6 +48,10 @@
 .order-instructions-container .order-status,
 .order-instructions-container .order-instructions {
   font-weight: 300;
+}
+
+.order-products {
+  margin-top: 25px;
 }
 
 .ordered-product-quantity {
@@ -74,6 +76,7 @@
   background-color: #363636;
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
   padding: 25px 15px;
 }

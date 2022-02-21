@@ -78,7 +78,7 @@ const OrderDetails = ({ setNavContent }) => {
           </div>
           <div className="order-total-container">
             <p>Total:</p>
-            <p>{total}</p>
+            <p>${total}</p>
           </div>
         </>
       )}

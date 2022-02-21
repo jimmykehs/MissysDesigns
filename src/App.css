@@ -9,10 +9,15 @@ body {
   /* overflow: hidden; */
   background-color: #2d2d2d;
 }
-#root,
+
+body {
+  /* padding-bottom: 250px; */
+  min-height: 100vh;
+}
+/* #root,
 #app {
-  margin-top: 55px;
-  /* width: 100vw;
+  margin-top: 25px;
+  width: 100vw;
   min-height: 100vh;
   position: absolute;
   top: 0;
@@ -20,14 +25,20 @@ body {
   left: 0;
   right: 0;
   overflow: auto;
-  padding-top: 55px;
-  padding-bottom: 250px; */
-}
+  padding-bottom: 250px;
+} */
 
 .page-title {
+  width: 100%;
   text-align: center;
   padding: 15px;
   font-size: 24px;
   font-weight: 300;
   color: #fff;
+}
+
+@media screen and (min-width: 1000px) {
+  .page-title {
+    padding-left: 50px;
+  }
 }

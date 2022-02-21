@@ -54,6 +54,26 @@ async function addProductsToOrder(orderId, products) {
   }
 }
 
+async function getAllOrders() {
+  try {
+    let allOrders = [];
+    const getOrdersql = "SELECT * FROM orders;";
+    const { rows } = await pool.query(getOrdersql);
+    for (let row of rows) {
+      const orderProductsSql = format(
+        `SELECT * FROM ordered_products WHERE order_id = %L;`,
+        row.order_id
+      );
+      const orderProducts = await pool.query(orderProductsSql);
+      allOrders.push({ orderDetails: row, orderProducts: orderProducts.rows });
+    }
+
+    return allOrders;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function getOrderById(orderId) {
   try {
     const getOrdersql = format(
@@ -76,4 +96,4 @@ async function getOrderById(orderId) {
   }
 }
 
-module.exports = { createOrder, getOrderById };
+module.exports = { createOrder, getAllOrders, getOrderById };

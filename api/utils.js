@@ -14,7 +14,7 @@ async function authenticateUser(req, res, next) {
       next({ message: "Invalid Credentials" });
     }
 
-    const user = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     if (!user) {
       res.status(401);
       next({ message: "Invalid Credentials" });
@@ -29,10 +29,23 @@ async function authenticateUser(req, res, next) {
 async function checkForUser(req, res, next) {
   try {
     const authHeader = req.headers["authorization"];
+
+    if (authHeader === undefined) {
+      next({ message: "Invalid Headers" });
+    }
     const token = authHeader.split(" ")[1];
-    const user = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    req.user = user;
-    next();
+    if (!token) {
+      next({ message: "Invalid Credentials" });
+    }
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        res.status(401);
+        next({ message: "Invalid Credentials" });
+      }
+      req.user = decoded;
+      next();
+    });
   } catch (error) {
     next();
   }

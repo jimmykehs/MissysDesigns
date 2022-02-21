@@ -9,7 +9,7 @@ const CartItem = ({
   removeItemFromCart,
 }) => {
   const [quantity, setQuantity] = useState(cartProduct.quantity || 0);
-  const [dbProduct, setDBProduct] = useState([]);
+  const [dbProduct, setDBProduct] = useState({});
 
   useEffect(() => {
     fetch(`/api/products/${cartProduct.id}`)
@@ -20,12 +20,19 @@ const CartItem = ({
   }, [cartProduct]);
 
   useEffect(() => {
-    updateItemPrices(index, dbProduct.price * quantity);
+    if (dbProduct.product_id !== undefined) {
+      updateItemPrices(dbProduct.product_id, dbProduct.price * quantity);
+    }
   }, [dbProduct]);
 
   useEffect(() => {
-    updateCartItemQuantity(index, quantity);
-    updateItemPrices(index, dbProduct.price * quantity);
+    if (quantity < 1) {
+      alert("Quantity must be greater than 0");
+      setQuantity(1);
+    } else {
+      updateCartItemQuantity(index, quantity);
+      updateItemPrices(dbProduct.product_id, dbProduct.price * quantity);
+    }
   }, [quantity]);
 
   const { name, price, image_url } = dbProduct;
@@ -66,7 +73,7 @@ const CartItem = ({
         <button
           className="remove-from-cart-btn-sm"
           onClick={() => {
-            removeItemFromCart(cartProduct.id, index);
+            removeItemFromCart(cartProduct.id);
           }}
         >
           Remove

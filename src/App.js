@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import CartPage from "./Components/Cart/cart";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import OrderDetails from "./Components/OrderDetails/OrderDetails";
+import Login from "./Components/Login/Login";
+import Admin from "./Components/Admin/Admin";
 
 function App() {
   const [navContent, setNavContent] = useState({
@@ -18,6 +20,7 @@ function App() {
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("MDCart")) || []
   );
+  const [token, setToken] = useState(localStorage.getItem("MDToken"));
 
   useEffect(() => {
     localStorage.setItem("MDCart", JSON.stringify(cart));
@@ -35,6 +38,10 @@ function App() {
         setAllProducts(result.sort((a, b) => a.name - b.name));
       });
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("MDToken", token);
+  }, [token]);
 
   const initialOptions = {
     "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
@@ -73,6 +80,8 @@ function App() {
               path="/orders/:orderId"
               element={<OrderDetails setNavContent={setNavContent} />}
             />
+            <Route path="/login" element={<Login setToken={setToken} />} />
+            <Route path="/admin" element={<Admin token={token} />} />
           </Routes>
         </div>
       </Router>

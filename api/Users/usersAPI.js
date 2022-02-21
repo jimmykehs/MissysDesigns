@@ -23,6 +23,7 @@ usersRouter.get("/me", authenticateUser, async (req, res, next) => {
 
 usersRouter.post("/login", async (req, res, next) => {
   try {
+    console.log(req.body);
     const user = await getUserByUsername(req.body.email);
     const pwMatch = await bcrypt.compare(req.body.password, user.password);
     if (pwMatch) {

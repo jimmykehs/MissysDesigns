@@ -1,0 +1,22 @@
+table {
+  color: #fff;
+  margin: 25px 50px;
+  width: 66%;
+  thead {
+    font-size: 20px;
+    text-align: left;
+  }
+
+  td,
+  th {
+    padding: 5px 10px;
+  }
+
+  .order-link {
+    color: #fff;
+
+    &:hover {
+      color: rgb(43, 137, 214);
+    }
+  }
+}

@@ -1,5 +1,4 @@
 const express = require("express");
-const { authenticateUser, checkForUser } = require("../utils");
 const {
   createOrder,
   getOrderById,
@@ -9,7 +8,6 @@ const ordersRouter = express.Router();
 
 ordersRouter.get("/:orderId", async (req, res, next) => {
   try {
-    console.log("IN ROUTE");
     const { orderId } = req.params;
     const order = await getOrderById(orderId);
     res.send(order);
@@ -20,20 +18,6 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 
 ordersRouter.post("/", async (req, res, next) => {
   try {
-    // const {
-    //   id,
-    //   purchase_units: [
-    //     {
-    //       shipping: { address },
-    //     },
-    //   ],
-    //   payer: {
-    //     name: { given_name, surname },
-    //     email_address,
-    //   },
-    // } = req.body;
-    // const { cart, total, specialInstructions } = req.body;
-    console.log(req.body);
     const {
       details: {
         id,

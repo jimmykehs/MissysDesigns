@@ -6,7 +6,7 @@ import "./cart.css";
 import Total from "./Total";
 
 const CartPage = ({ cart, setCart, setNavContent }) => {
-  const [itemPrices, setItemPrices] = useState([0]);
+  const [itemPrices, setItemPrices] = useState([]);
   const specialInstructions = useRef("");
   useEffect(() => {
     setNavContent({
@@ -19,20 +19,30 @@ const CartPage = ({ cart, setCart, setNavContent }) => {
 
   useEffect(() => {
     getTotal();
+    console.log(itemPrices);
   }, [itemPrices]);
 
   function getTotal() {
     let totalPrice = 0;
-    itemPrices.forEach((price) => {
-      totalPrice += price;
+    itemPrices.forEach((item) => {
+      totalPrice += item.price;
     });
     return totalPrice;
   }
 
-  function updateItemPrices(index, price) {
-    const newPrices = [...itemPrices];
-    newPrices[index] = price;
-    setItemPrices(newPrices);
+  function updateItemPrices(productId, price) {
+    const newItems = [...itemPrices];
+    const existingIndex = newItems.findIndex(
+      (item) => item.productId === productId
+    );
+    if (existingIndex !== -1) {
+      newItems[existingIndex].price = price;
+    } else if (productId === undefined) {
+      return;
+    } else {
+      newItems.push({ productId, price });
+    }
+    setItemPrices(newItems);
   }
 
   function updateCartItemQuantity(index, quantity) {
@@ -41,29 +51,32 @@ const CartPage = ({ cart, setCart, setNavContent }) => {
     setCart(newCart);
   }
 
-  function removeItemFromCart(itemId, index) {
-    const newPrices = [...itemPrices];
-    newPrices[index] = 0;
-    setItemPrices(newPrices);
-    setCart(cart.filter((cartProduct) => cartProduct.id !== itemId));
+  function removeItemFromCart(productId) {
+    const newItems = [...itemPrices];
+    const index = newItems.findIndex((item) => item.productId === productId);
+    newItems.splice(index, 1);
+    setItemPrices(newItems);
+    setCart(cart.filter((cartProduct) => cartProduct.id !== productId));
   }
 
   return (
     <div id="cart">
       {cart.length > 0 ? (
         <>
-          {cart.map((cartProduct, index) => {
-            return (
-              <CartItem
-                key={cartProduct.id}
-                cartProduct={cartProduct}
-                index={index}
-                updateCartItemQuantity={updateCartItemQuantity}
-                updateItemPrices={updateItemPrices}
-                removeItemFromCart={removeItemFromCart}
-              />
-            );
-          })}
+          <div id="cart-products">
+            {cart.map((cartProduct, index) => {
+              return (
+                <CartItem
+                  key={cartProduct.id}
+                  cartProduct={cartProduct}
+                  index={index}
+                  updateCartItemQuantity={updateCartItemQuantity}
+                  updateItemPrices={updateItemPrices}
+                  removeItemFromCart={removeItemFromCart}
+                />
+              );
+            })}
+          </div>
 
           <div id="total-and-checkout-container">
             <Total
